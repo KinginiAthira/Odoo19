@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_ra" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <t t-if="o.move_type == 'out_invoice' and (o.retention_amount or o.advance_recovery_amount)">
+                <div class="row mt-3" id="ra_summary">
+                    <div class="col-6 ms-auto">
+                        <table class="table table-sm table-borderless">
+                            <tr>
+                                <td>Invoice Total</td>
+                                <td class="text-end"><span t-field="o.amount_total"/></td>
+                            </tr>
+                            <tr t-if="o.retention_amount">
+                                <td>Less: Retention (<span t-out="o.retention_percent"/>%)</td>
+                                <td class="text-end">- <span t-field="o.retention_amount"/></td>
+                            </tr>
+                            <tr t-if="o.advance_recovery_amount">
+                                <td>Less: Advance Recovery</td>
+                                <td class="text-end">- <span t-field="o.advance_recovery_amount"/></td>
+                            </tr>
+                            <tr class="border-top fw-bold">
+                                <td>Amount to Pay Now</td>
+                                <td class="text-end"><span t-field="o.amount_to_pay_now"/></td>
+                            </tr>
+                            <tr t-if="o.retention_amount and o.retention_due_date">
+                                <td colspan="2" class="text-muted">
+                                    Retention is payable after handover (expected <span t-field="o.retention_due_date"/>).
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

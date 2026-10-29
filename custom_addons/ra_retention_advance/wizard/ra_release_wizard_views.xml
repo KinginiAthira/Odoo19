@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ra_release_wizard_form" model="ir.ui.view">
+        <field name="name">ra.release.wizard.form</field>
+        <field name="model">ra.release.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Release Retention">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="partner_id"/>
+                        <field name="sale_order_id"/>
+                    </group>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                </group>
+                <p class="text-muted">
+                    Remove the invoices you do not want to release. Change the amount for a partial release.
+                </p>
+                <field name="line_ids">
+<!--                    <list editable="bottom" create="0">-->
+<!--                        <field name="invoice_id" readonly="1"/>-->
+<!--                        <field name="project_id" readonly="1"/>-->
+<!--                        <field name="currency_id" column_invisible="1"/>-->
+<!--                        <field name="retention_balance" readonly="1"/>-->
+<!--                        <field name="amount"/>-->
+<!--                    </list>-->
+                    <list editable="bottom" create="0">
+                        <field name="invoice_id" readonly="1" force_save="1"/>
+                        <field name="project_id" readonly="1"/>
+                        <field name="currency_id" column_invisible="1"/>
+                        <field name="retention_balance" readonly="1" force_save="1"/>
+                        <field name="amount"/>
+                    </list>
+                </field>
+                <footer>
+                    <button string="Release" name="action_release" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ra_release_wizard" model="ir.actions.act_window">
+        <field name="name">Release Retention</field>
+        <field name="res_model">ra.release.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_ra_release_wizard_partner" model="ir.actions.act_window">
+        <field name="name">Release Retention</field>
+        <field name="res_model">ra.release.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_partner_id': active_id}</field>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>
